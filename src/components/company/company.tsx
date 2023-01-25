@@ -1,6 +1,6 @@
 import * as React from "react"
-function Compnay(props: any) {
-	return <span>company funcional component</span>
+function Company(props: any) {
+	return <span>Company funcional component</span>
 }
 
-export default Compnay
+export default Company

@@ -1,44 +1,54 @@
-import * as React from "react"
-import { styled, useTheme } from "@mui/material/styles"
-import Box from "@mui/material/Box"
-import Drawer from "@mui/material/Drawer"
-import CssBaseline from "@mui/material/CssBaseline"
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar"
-import Toolbar from "@mui/material/Toolbar"
-import List from "@mui/material/List"
-import Typography from "@mui/material/Typography"
-import Divider from "@mui/material/Divider"
-import IconButton from "@mui/material/IconButton"
-import MenuIcon from "@mui/icons-material/Menu"
+import BusinessIcon from "@mui/icons-material/Business"
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"
 import ChevronRightIcon from "@mui/icons-material/ChevronRight"
+import DashboardIcon from "@mui/icons-material/Dashboard"
+import GroupAddIcon from "@mui/icons-material/GroupAdd"
+import MedicationIcon from "@mui/icons-material/Medication"
+import MenuIcon from "@mui/icons-material/Menu"
+import PrecisionManufacturingIcon from "@mui/icons-material/PrecisionManufacturing"
+import VaccinesIcon from "@mui/icons-material/Vaccines"
+import { CssBaseline, ListItemIcon } from "@mui/material"
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar"
+import Box from "@mui/material/Box"
+import Divider from "@mui/material/Divider"
+import Drawer from "@mui/material/Drawer"
+import IconButton from "@mui/material/IconButton"
+import List from "@mui/material/List"
 import ListItem from "@mui/material/ListItem"
 import ListItemButton from "@mui/material/ListItemButton"
-import ListItemIcon from "@mui/material/ListItemIcon"
 import ListItemText from "@mui/material/ListItemText"
-import InboxIcon from "@mui/icons-material/MoveToInbox"
-import MailIcon from "@mui/icons-material/Mail"
+import { styled, useTheme } from "@mui/material/styles"
+import Toolbar from "@mui/material/Toolbar"
+import Typography from "@mui/material/Typography"
+import * as React from "react"
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom"
+import Company from "../../components/company/company"
+import Dashboard from "../../components/dashboard/dashboard"
+import Device from "../../components/device/device"
+import Medicine from "../../components/medicine/medicine"
+import Patient from "../../components/patient/patient"
+import Pharmacy from "../../components/pharmacy/pharmacy"
 
 const drawerWidth = 240
 
-const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
-	open?: boolean
-}>(({ theme, open }) => ({
-	flexGrow: 1,
-	padding: theme.spacing(3),
-	transition: theme.transitions.create("margin", {
-		easing: theme.transitions.easing.sharp,
-		duration: theme.transitions.duration.leavingScreen,
-	}),
-	marginLeft: `-${drawerWidth}px`,
-	...(open && {
+const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
+	({ theme, open }) => ({
+		flexGrow: 1,
+		padding: theme.spacing(3),
 		transition: theme.transitions.create("margin", {
-			easing: theme.transitions.easing.easeOut,
-			duration: theme.transitions.duration.enteringScreen,
+			easing: theme.transitions.easing.sharp,
+			duration: theme.transitions.duration.leavingScreen,
 		}),
-		marginLeft: 0,
+		marginLeft: `-${drawerWidth}px`,
+		...(open && {
+			transition: theme.transitions.create("margin", {
+				easing: theme.transitions.easing.easeOut,
+				duration: theme.transitions.duration.enteringScreen,
+			}),
+			marginLeft: 0,
+		}),
 	}),
-}))
+)
 
 interface AppBarProps extends MuiAppBarProps {
 	open?: boolean
@@ -46,7 +56,7 @@ interface AppBarProps extends MuiAppBarProps {
 
 const AppBar = styled(MuiAppBar, {
 	shouldForwardProp: (prop) => prop !== "open",
-})<AppBarProps>(({ theme, open }) => ({
+})(({ theme, open }) => ({
 	transition: theme.transitions.create(["margin", "width"], {
 		easing: theme.transitions.easing.sharp,
 		duration: theme.transitions.duration.leavingScreen,
@@ -65,21 +75,50 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 	display: "flex",
 	alignItems: "center",
 	padding: theme.spacing(0, 1),
-	// necessary for content to be below app bar
 	...theme.mixins.toolbar,
 	justifyContent: "flex-end",
 }))
 
 export default function PersistentDrawerLeft() {
 	const theme = useTheme()
+	const navigate = useNavigate()
+	const location = useLocation()
+	const headerTitle = location.pathname.replace("/", "")
+
 	const drawerData = [
-		"Dashboard",
-		"device",
-		"compnay",
-		"pharmacy",
-		"medicine",
-		"patient",
+		{
+			title: "dashboard",
+			icon: <DashboardIcon />,
+			redirect: "/dashboard",
+		},
+		{
+			title: "device",
+			icon: <PrecisionManufacturingIcon />,
+			redirect: "/device",
+		},
+		{
+			title: "company",
+			icon: <BusinessIcon />,
+			redirect: "/company",
+		},
+		{
+			title: "pharmacy",
+			icon: <MedicationIcon />,
+			redirect: "/pharmacy",
+		},
+		{
+			title: "medicine",
+			icon: <VaccinesIcon />,
+			redirect: "/medicine",
+		},
+		{
+			title: "patient",
+			icon: <GroupAddIcon />,
+			path: "string",
+			redirect: "/patient",
+		},
 	]
+
 	const [open, setOpen] = React.useState(false)
 
 	const handleDrawerOpen = () => {
@@ -93,19 +132,23 @@ export default function PersistentDrawerLeft() {
 	return (
 		<Box sx={{ display: "flex" }}>
 			<CssBaseline />
-			<AppBar position="fixed" open={open}>
+			<AppBar position="fixed" open={open} sx={{ backgroundColor: "#363740" }}>
 				<Toolbar>
 					<IconButton
-						color="inherit"
 						aria-label="open drawer"
 						onClick={handleDrawerOpen}
 						edge="start"
-						sx={{ mr: 2, ...(open && { display: "none" }) }}
+						sx={{ color: "#DDE2FF", mr: 2, ...(open && { display: "none" }) }}
 					>
 						<MenuIcon />
 					</IconButton>
-					<Typography variant="h6" noWrap component="div">
-						Persistent drawer
+					<Typography
+						sx={{ color: "DDE2FF" }}
+						variant="h6"
+						noWrap
+						component="div"
+					>
+						{headerTitle}
 					</Typography>
 				</Toolbar>
 			</AppBar>
@@ -122,8 +165,15 @@ export default function PersistentDrawerLeft() {
 				anchor="left"
 				open={open}
 			>
-				<DrawerHeader>
-					<IconButton onClick={handleDrawerClose}>
+				<DrawerHeader
+					sx={{
+						backgroundColor: "#363740",
+						display: "flex",
+						justifyContent: "space-evenly",
+					}}
+				>
+					<Typography sx={{ color: "#DDE2FF" }}>shafa system</Typography>
+					<IconButton onClick={handleDrawerClose} sx={{ color: "#DDE2FF" }}>
 						{theme.direction === "ltr" ? (
 							<ChevronLeftIcon />
 						) : (
@@ -132,14 +182,20 @@ export default function PersistentDrawerLeft() {
 					</IconButton>
 				</DrawerHeader>
 				<Divider />
-				<List>
-					{drawerData.map((text, index) => (
-						<ListItem key={text} disablePadding>
-							<ListItemButton>
-								<ListItemIcon>
-									{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+				<List
+					sx={{ backgroundColor: "#363740", width: "100%", height: "100%" }}
+				>
+					{drawerData.map((element) => (
+						<ListItem
+							key={element.title}
+							disablePadding
+							sx={{ color: "#DDE2FF" }}
+						>
+							<ListItemButton onClick={() => navigate(element.redirect)}>
+								<ListItemIcon sx={{ color: "#DDE2FF" }}>
+									{element.icon}
 								</ListItemIcon>
-								<ListItemText primary={text} />
+								<ListItemText primary={element.title} />
 							</ListItemButton>
 						</ListItem>
 					))}
@@ -148,21 +204,14 @@ export default function PersistentDrawerLeft() {
 			</Drawer>
 			<Main open={open}>
 				<DrawerHeader />
-
-				<Typography paragraph>
-					Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
-					ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar
-					elementum integer enim neque volutpat ac tincidunt. Ornare suspendisse
-					sed nisi lacus sed viverra tellus. Purus sit amet volutpat consequat
-					mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis
-					risus sed vulputate odio. Morbi tincidunt ornare massa eget egestas
-					purus viverra accumsan in. In hendrerit gravida rutrum quisque non
-					tellus orci ac. Pellentesque nec nam aliquam sem et tortor. Habitant
-					morbi tristique senectus et. Adipiscing elit duis tristique
-					sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-					eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-					posuere sollicitudin aliquam ultrices sagittis orci a.
-				</Typography>
+				<Routes>
+					<Route path="/dashboard" element={<Dashboard />}></Route>
+					<Route path="/device" element={<Device></Device>}></Route>
+					<Route path="/company" element={<Company></Company>}></Route>
+					<Route path="/pharmacy" element={<Pharmacy></Pharmacy>}></Route>
+					<Route path="/medicine" element={<Medicine></Medicine>}></Route>
+					<Route path="/patient" element={<Patient></Patient>}></Route>
+				</Routes>
 			</Main>
 		</Box>
 	)

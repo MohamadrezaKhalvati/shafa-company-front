@@ -1,7 +1,11 @@
-import * as React from "react"
+import React from "react"
 
-function Device(props: any) {
-	return <span>device funcional component</span>
+function Device() {
+	return (
+		<div>
+			<span>device funcional component</span>
+		</div>
+	)
 }
 
 export default Device
