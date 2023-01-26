@@ -1,0 +1,12 @@
+.cardBox {
+	width: 20%;
+
+}
+
+
+.CardContent {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
