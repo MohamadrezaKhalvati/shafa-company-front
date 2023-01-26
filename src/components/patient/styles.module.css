@@ -1,0 +1,25 @@
+.makeToRow {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	margin-top: 3%;
+}
+
+.makeToRowSingle {
+	display: flex;
+	flex-direction: row;
+	margin-top: 3%;
+	margin-left: 20.4%;
+}
+
+.makeToColumn {
+	display: flex;
+	flex-direction: column;
+}
+
+
+.buttonDiv {
+	display: flex;
+	justify-content: center;
+	margin-top: 6%;
+}
