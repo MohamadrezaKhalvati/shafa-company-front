@@ -1,4 +1,4 @@
-import { Button, Container, TextField } from "@mui/material"
+import { Button, Container, TextField, Typography } from "@mui/material"
 import React, { useState } from "react"
 import styles from "./styles.module.css"
 
@@ -51,7 +51,10 @@ function Patient(props: any) {
 
 	function createPatient() {}
 	return (
-		<Container fixed sx={{ bgcolor: "#FFFFFF", height: "80vh" }}>
+		<Container fixed sx={{ bgcolor: "#FFFFFF", height: "85vh" }}>
+			<Typography sx={{ color: "#363740", pt: "20px", pl: "12px" }}>
+				add new patient
+			</Typography>
 			<div className={styles.makeToColumn}>
 				<div className={styles.makeToRow}>
 					<TextField

@@ -86,6 +86,9 @@ export default function PersistentDrawerLeft() {
 	const location = useLocation()
 	const headerTitle = location.pathname.replace("/", "")
 
+	// React.useEffect(() => {
+	// 	navigate("/dashboard")
+	// }, [])
 	const drawerData = [
 		{
 			title: "dashboard",

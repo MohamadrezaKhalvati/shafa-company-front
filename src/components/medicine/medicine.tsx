@@ -4,6 +4,8 @@ import TextField from "@mui/material/TextField"
 import { useState } from "react"
 import styles from "./styles.module.css"
 import React from "react"
+import Typography from "@mui/material/Typography"
+
 function Medicine() {
 	const [name, setName] = useState()
 	const [adminstration, setAdminstration] = useState()
@@ -40,6 +42,9 @@ function Medicine() {
 
 	return (
 		<Container fixed sx={{ bgcolor: "#FFFFFF", height: "70vh" }}>
+			<Typography sx={{ color: "#363740", pt: "20px", pl: "12px" }}>
+				add new medicine
+			</Typography>
 			<div className={styles.makeToColumn}>
 				<div className={styles.makeToRow}>
 					<TextField
