@@ -1,5 +1,6 @@
 import CardComponent from "../../shared/card/card"
 import styles from "./styles.module.css"
+import React from "react"
 function Dashboard() {
 	return (
 		<div className={styles.makeToColumn}>

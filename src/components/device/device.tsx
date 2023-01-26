@@ -7,6 +7,7 @@ import TableHead from "@mui/material/TableHead"
 import TableRow from "@mui/material/TableRow"
 import Paper from "@mui/material/Paper"
 import Card from "@mui/material/Card"
+import { Typography } from "@mui/material"
 
 function createData(name: string, calories: number, fat: number) {
 	return { name, calories, fat }
@@ -23,8 +24,16 @@ const rows = [
 function Device() {
 	return (
 		<TableContainer component={Paper}>
-			<Table sx={{ minWidth: 650 }} aria-label="simple table">
+			<Table sx={{ minWidth: 650, mt: "20px" }} aria-label="simple table">
 				<TableHead>
+					<Typography
+						sx={{ flex: "1 1 ", ml: "15px" }}
+						variant="h5"
+						id="tableTitle"
+						component="div"
+					>
+						All devices
+					</Typography>
 					<TableRow>
 						<TableCell sx={{ fontWeight: "bold", fontSize: 17 }}>
 							name
