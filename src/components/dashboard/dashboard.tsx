@@ -1,7 +1,5 @@
 import CardComponent from "../../shared/card/card"
-import React from "react"
 import styles from "./styles.module.css"
-import Box from "@mui/material/Box"
 function Dashboard() {
 	return (
 		<div className={styles.makeToColumn}>
