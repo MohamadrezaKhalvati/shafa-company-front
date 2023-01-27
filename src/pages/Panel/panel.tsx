@@ -24,7 +24,7 @@ import * as React from "react"
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom"
 import Company from "../../components/company/company"
 import Dashboard from "../../components/dashboard/dashboard"
-import Device from "../../components/device/device"
+import Complication from "../../components/complication/complication"
 import Medicine from "../../components/medicine/medicine"
 import Patient from "../../components/patient/patient"
 import Pharmacy from "../../components/pharmacy/pharmacy"
@@ -75,7 +75,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 	display: "flex",
 	alignItems: "center",
 	padding: theme.spacing(0, 1),
-	// necessary for content to be below app bar
 	...theme.mixins.toolbar,
 	justifyContent: "flex-end",
 }))
@@ -96,9 +95,9 @@ export default function PersistentDrawerLeft() {
 			redirect: "/dashboard",
 		},
 		{
-			title: "device",
+			title: "complication",
 			icon: <PrecisionManufacturingIcon />,
-			redirect: "/device",
+			redirect: "/complication",
 		},
 		{
 			title: "company",
@@ -210,7 +209,10 @@ export default function PersistentDrawerLeft() {
 				<DrawerHeader />
 				<Routes>
 					<Route path="/dashboard" element={<Dashboard />}></Route>
-					<Route path="/device" element={<Device></Device>}></Route>
+					<Route
+						path="/complication"
+						element={<Complication></Complication>}
+					></Route>
 					<Route path="/company" element={<Company></Company>}></Route>
 					<Route path="/pharmacy" element={<Pharmacy></Pharmacy>}></Route>
 					<Route path="/medicine" element={<Medicine></Medicine>}></Route>

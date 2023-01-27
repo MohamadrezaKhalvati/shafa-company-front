@@ -53,7 +53,7 @@ function Patient(props: any) {
 	return (
 		<Container fixed sx={{ bgcolor: "#FFFFFF", height: "85vh" }}>
 			<Typography sx={{ color: "#363740", pt: "20px", pl: "12px" }}>
-				add new patient
+				Add new patient
 			</Typography>
 			<div className={styles.makeToColumn}>
 				<div className={styles.makeToRow}>

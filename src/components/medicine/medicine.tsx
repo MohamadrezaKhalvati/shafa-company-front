@@ -43,12 +43,11 @@ function Medicine() {
 	return (
 		<Container fixed sx={{ bgcolor: "#FFFFFF", height: "70vh" }}>
 			<Typography sx={{ color: "#363740", pt: "20px", pl: "12px" }}>
-				add new medicine
+				Add new medicine
 			</Typography>
 			<div className={styles.makeToColumn}>
 				<div className={styles.makeToRow}>
 					<TextField
-						helperText="Enter medicine name"
 						required
 						value={name}
 						onChange={handleChangeName}
@@ -58,7 +57,6 @@ function Medicine() {
 					/>
 					<TextField
 						required
-						helperText="Enter medicine adminstration"
 						onChange={handleChangeAdminstration}
 						value={adminstration}
 						id="outlined-basic"
@@ -69,7 +67,6 @@ function Medicine() {
 				<div className={styles.makeToRow}>
 					<TextField
 						required
-						helperText="Enter production date of medicine"
 						value={productionDate}
 						onChange={handleChangeProductionDate}
 						id="outlined-basic"
@@ -77,7 +74,6 @@ function Medicine() {
 						variant="outlined"
 					/>
 					<TextField
-						helperText="Enter expiry date of medicine"
 						required
 						value={expiryDate}
 						onChange={handleChangeExpiryDate}
@@ -90,14 +86,12 @@ function Medicine() {
 					<TextField
 						required
 						value={ageLimit}
-						helperText="Enter age limit of medicine"
 						onChange={handleChangeAgeLimit}
 						id="outlined-basic"
 						label="age limit"
 						variant="outlined"
 					/>
 					<TextField
-						helperText="Enter company of medicine"
 						required
 						value={company}
 						onChange={handleChangeCompany}
