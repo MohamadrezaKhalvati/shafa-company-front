@@ -10,7 +10,7 @@ import TableRow from "@mui/material/TableRow"
 import React, { useState } from "react"
 import complicationApi, {
 	CreateComplicationInputType,
-} from "../../composition/complication.composition"
+} from "../../../composition/complication.composition"
 
 function createData(name: string, calories: number, fat: number) {
 	return { name, calories, fat }
@@ -51,7 +51,7 @@ function Complication() {
 						value={diseaseName}
 						onChange={handleChangeDiseaseName}
 						id="outlined-basic"
-						label="name"
+						label="disease name"
 						variant="outlined"
 					/>
 					<TextField
@@ -59,7 +59,7 @@ function Complication() {
 						onChange={duration}
 						value={handleChangeDuration}
 						id="outlined-basic"
-						label="established year"
+						label="duration"
 						variant="outlined"
 					/>
 				</div>
@@ -69,7 +69,7 @@ function Complication() {
 						value={pharmaceuticalCompanyName}
 						onChange={handleChangePharmaceuticalCompanyName}
 						id="outlined-basic"
-						label="address"
+						label="pharmaceutical Company Name"
 						variant="outlined"
 					/>
 				</div>

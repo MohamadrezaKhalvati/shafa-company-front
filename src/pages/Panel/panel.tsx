@@ -22,12 +22,12 @@ import Toolbar from "@mui/material/Toolbar"
 import Typography from "@mui/material/Typography"
 import * as React from "react"
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom"
-import Company from "../../components/company/company"
+import Company from "../../components/company/companyInsert/companyInsert"
 import Dashboard from "../../components/dashboard/dashboard"
-import Complication from "../../components/complication/complication"
-import Medicine from "../../components/medicine/medicine"
-import Patient from "../../components/patient/patient"
-import Pharmacy from "../../components/pharmacy/pharmacy"
+import Complication from "../../components/complication/complicationInsert/complicationInsert"
+import Medicine from "../../components/medicine/medicineInsert/medicineInsert"
+import Patient from "../../components/patient/patientInsert/patientInsert"
+import Pharmacy from "../../components/pharmacy/pharmacyInsert/pharmacyInsert"
 
 const drawerWidth = 240
 
@@ -83,8 +83,14 @@ export default function PersistentDrawerLeft() {
 	const theme = useTheme()
 	const navigate = useNavigate()
 	const location = useLocation()
-	const headerTitle = location.pathname.replace("/", "")
 
+	let headerTitle = location.pathname.substring(
+		location.pathname.indexOf("/") + 1,
+		location.pathname.lastIndexOf("/"),
+	)
+	headerTitle === "/"
+		? (headerTitle = "Dashboard")
+		: (headerTitle = headerTitle)
 	// React.useEffect(() => {
 	// 	navigate("/dashboard")
 	// }, [])
@@ -97,28 +103,28 @@ export default function PersistentDrawerLeft() {
 		{
 			title: "complication",
 			icon: <PrecisionManufacturingIcon />,
-			redirect: "/complication",
+			redirect: "/complication/insert",
 		},
 		{
 			title: "company",
 			icon: <BusinessIcon />,
-			redirect: "/company",
+			redirect: "/company/insert",
 		},
 		{
 			title: "pharmacy",
 			icon: <MedicationIcon />,
-			redirect: "/pharmacy",
+			redirect: "/pharmacy/insert",
 		},
 		{
 			title: "medicine",
 			icon: <VaccinesIcon />,
-			redirect: "/medicine",
+			redirect: "/medicine/insert",
 		},
 		{
 			title: "patient",
 			icon: <GroupAddIcon />,
 			path: "string",
-			redirect: "/patient",
+			redirect: "/patient/insert",
 		},
 	]
 
@@ -210,13 +216,19 @@ export default function PersistentDrawerLeft() {
 				<Routes>
 					<Route path="/dashboard" element={<Dashboard />}></Route>
 					<Route
-						path="/complication"
+						path="/complication/insert"
 						element={<Complication></Complication>}
 					></Route>
-					<Route path="/company" element={<Company></Company>}></Route>
-					<Route path="/pharmacy" element={<Pharmacy></Pharmacy>}></Route>
-					<Route path="/medicine" element={<Medicine></Medicine>}></Route>
-					<Route path="/patient" element={<Patient></Patient>}></Route>
+					<Route path="/company/insert" element={<Company></Company>}></Route>
+					<Route
+						path="/pharmacy/insert"
+						element={<Pharmacy></Pharmacy>}
+					></Route>
+					<Route
+						path="/medicine/insert"
+						element={<Medicine></Medicine>}
+					></Route>
+					<Route path="/patient/insert" element={<Patient></Patient>}></Route>
 				</Routes>
 			</Main>
 		</Box>

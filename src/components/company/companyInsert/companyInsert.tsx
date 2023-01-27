@@ -9,7 +9,7 @@ import TableRow from "@mui/material/TableRow"
 import React, { useState } from "react"
 import CompanyAPi, {
 	createCompanyType,
-} from "../../composition/company.composition"
+} from "../../../composition/company.composition"
 import styles from "./styles.module.css"
 function createData(name: string, calories: number, fat: number) {
 	return { name, calories, fat }
