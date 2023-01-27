@@ -1,4 +1,5 @@
-function medicineView() {
+import React from "react"
+function MedicineView() {
 	return (
 		<div>
 			<span>medicineView</span>
@@ -6,4 +7,4 @@ function medicineView() {
 	)
 }
 
-export default medicineView
+export default MedicineView

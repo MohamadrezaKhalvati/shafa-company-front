@@ -28,6 +28,12 @@ import Complication from "../../components/complication/complicationInsert/compl
 import Medicine from "../../components/medicine/medicineInsert/medicineInsert"
 import Patient from "../../components/patient/patientInsert/patientInsert"
 import Pharmacy from "../../components/pharmacy/pharmacyInsert/pharmacyInsert"
+import PatientView from "../../components/patient/patientSelect/patientSelect"
+import CompanyView from "../../components/company/companySelect/companySelect"
+import ComplicationView from "../../components/complication/complicationSelect/complicationSelect"
+import PharmacyView from "../../components/pharmacy/pharmacySelect/pharmacySelect"
+import MedicineView from "../../components/medicine/medicineSelect/medicineSelect"
+import SuggestionView from "../../components/suggestion/suggestionSelect"
 
 const drawerWidth = 240
 
@@ -219,16 +225,41 @@ export default function PersistentDrawerLeft() {
 						path="/complication/insert"
 						element={<Complication></Complication>}
 					></Route>
+					<Route
+						path="/complication/view"
+						element={<ComplicationView></ComplicationView>}
+					></Route>
 					<Route path="/company/insert" element={<Company></Company>}></Route>
+					<Route
+						path="/company/view"
+						element={<CompanyView></CompanyView>}
+					></Route>
 					<Route
 						path="/pharmacy/insert"
 						element={<Pharmacy></Pharmacy>}
 					></Route>
 					<Route
+						path="/pharmacy/view"
+						element={<PharmacyView></PharmacyView>}
+					></Route>
+					<Route
 						path="/medicine/insert"
 						element={<Medicine></Medicine>}
 					></Route>
+					<Route
+						path="/medicine/view"
+						element={<MedicineView></MedicineView>}
+					></Route>
 					<Route path="/patient/insert" element={<Patient></Patient>}></Route>
+					<Route
+						path="/patient/view"
+						element={<PatientView></PatientView>}
+					></Route>
+
+					<Route
+						path="/suggestion/view"
+						element={<SuggestionView></SuggestionView>}
+					></Route>
 				</Routes>
 			</Main>
 		</Box>

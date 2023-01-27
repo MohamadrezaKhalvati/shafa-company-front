@@ -7,6 +7,12 @@ import Patient from "./components/patient/patientInsert/patientInsert"
 import Pharmacy from "./components/pharmacy/pharmacyInsert/pharmacyInsert"
 import Panel from "./pages/Panel/panel"
 import React from "react"
+import PatientView from "./components/patient/patientSelect/patientSelect"
+import MedicineView from "./components/medicine/medicineSelect/medicineSelect"
+import PharmacySelect from "./components/pharmacy/pharmacySelect/pharmacySelect"
+import CompanyView from "./components/company/companySelect/companySelect"
+import ComplicationView from "./components/complication/complicationSelect/complicationSelect"
+import SuggestionView from "./components/suggestion/suggestionSelect"
 function App() {
 	return (
 		<BrowserRouter>
@@ -17,16 +23,40 @@ function App() {
 						path="/complication/insert"
 						element={<Complication></Complication>}
 					></Route>
+					<Route
+						path="/complication/view"
+						element={<ComplicationView></ComplicationView>}
+					></Route>
 					<Route path="/company/insert" element={<Company></Company>}></Route>
+					<Route
+						path="/company/view"
+						element={<CompanyView></CompanyView>}
+					></Route>
 					<Route
 						path="/pharmacy/insert"
 						element={<Pharmacy></Pharmacy>}
 					></Route>
 					<Route
+						path="/pharmacy/view"
+						element={<PharmacySelect></PharmacySelect>}
+					></Route>
+					<Route
 						path="/medicine/insert"
 						element={<Medicine></Medicine>}
 					></Route>
+					<Route
+						path="/medicine/view"
+						element={<MedicineView></MedicineView>}
+					></Route>
 					<Route path="/patient/insert" element={<Patient></Patient>}></Route>
+					<Route
+						path="/patient/view"
+						element={<PatientView></PatientView>}
+					></Route>
+					<Route
+						path="/suggestion/view"
+						element={<SuggestionView></SuggestionView>}
+					></Route>
 				</Route>
 			</Routes>
 		</BrowserRouter>

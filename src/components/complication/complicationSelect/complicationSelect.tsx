@@ -1,4 +1,5 @@
-function complicationView() {
+import React from "react"
+function ComplicationView() {
 	return (
 		<div>
 			<span>complication view</span>
@@ -6,4 +7,4 @@ function complicationView() {
 	)
 }
 
-export default complicationView
+export default ComplicationView

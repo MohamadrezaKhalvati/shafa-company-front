@@ -45,22 +45,40 @@ function Dashboard() {
 	return (
 		<div className={styles.makeToColumn}>
 			<div className={styles.makeToRow}>
-				<CardComponent title="pharmacy" count={pharmacyCount}></CardComponent>
+				<CardComponent
+					title="pharmacy"
+					count={pharmacyCount}
+					path="/pharmacy/view"
+				></CardComponent>
 				<CardComponent
 					title="complication"
+					path="/complication/view"
 					count={complicationCount}
 				></CardComponent>
 			</div>
 			<div className={styles.makeToRow}>
-				<CardComponent title="medicine" count={medicineCount}></CardComponent>
+				<CardComponent
+					title="medicine"
+					count={medicineCount}
+					path="/medicine/view"
+				></CardComponent>
 				<CardComponent
 					title="suggestion"
+					path="/suggestion/view"
 					count={suggestionCount}
 				></CardComponent>
 			</div>
 			<div className={styles.makeToRow}>
-				<CardComponent title="company" count={companyCount}></CardComponent>
-				<CardComponent title="patient" count={patientCount}></CardComponent>
+				<CardComponent
+					title="company"
+					count={companyCount}
+					path="/company/view"
+				></CardComponent>
+				<CardComponent
+					title="patient"
+					count={patientCount}
+					path="/patient/view"
+				></CardComponent>
 			</div>
 		</div>
 	)

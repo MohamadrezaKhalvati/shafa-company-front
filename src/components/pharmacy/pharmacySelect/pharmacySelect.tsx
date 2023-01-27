@@ -1,4 +1,5 @@
-function pharmacySelect() {
+import React from "react"
+function PharmacyView() {
 	return (
 		<div>
 			<span>pharmacy view</span>
@@ -6,4 +7,4 @@ function pharmacySelect() {
 	)
 }
 
-export default pharmacySelect
+export default PharmacyView

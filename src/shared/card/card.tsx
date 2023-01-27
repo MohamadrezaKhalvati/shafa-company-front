@@ -3,10 +3,16 @@ import Card from "@mui/material/Card"
 import CardContent from "@mui/material/CardContent"
 import Typography from "@mui/material/Typography"
 import * as React from "react"
+import { Link, useNavigate } from "react-router-dom"
 import styles from "./styles.module.css"
 function CardComponent(props: any) {
+	const navigate = useNavigate()
 	return (
-		<Card variant="outlined" className={styles.cardBox}>
+		<Card
+			variant="outlined"
+			className={styles.cardBox}
+			onClick={() => navigate(props.path)}
+		>
 			<CardContent className={styles.CardContent}>
 				<Typography
 					sx={{ mt: 1.5, color: "#3751FF", fontWeight: "bold" }}

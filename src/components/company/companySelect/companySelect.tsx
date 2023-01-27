@@ -1,4 +1,5 @@
-function companyView() {
+import React from "react"
+function CompanyView() {
 	return (
 		<div>
 			<span>company view</span>
@@ -6,4 +7,4 @@ function companyView() {
 	)
 }
 
-export default companyView
+export default CompanyView
