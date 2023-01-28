@@ -97,9 +97,10 @@ export default function PersistentDrawerLeft() {
 	headerTitle === "/"
 		? (headerTitle = "Dashboard")
 		: (headerTitle = headerTitle)
-	// React.useEffect(() => {
-	// 	navigate("/dashboard")
-	// }, [])
+
+	React.useEffect(() => {
+		navigate("/dashboard")
+	}, [])
 	const drawerData = [
 		{
 			title: "dashboard",
