@@ -30,6 +30,7 @@ interface TablePaginationActionsProps {
 }
 
 type CompanyDataType = {
+	id: number
 	name: String
 	location: String
 	establishedYear: Date
@@ -102,6 +103,7 @@ function CompanyView() {
 		const data: any = []
 		rawData.map((element: any) => {
 			const obj: CompanyDataType = {
+				id: element.id_PharmaceuticalCompany,
 				country: element.PharmaceuticalCompany_country,
 				establishedYear: element.PharmaceuticalCompany_established_year,
 				location: element.PharmaceuticalCompany_location,
@@ -175,7 +177,7 @@ function CompanyView() {
 						: rows
 					).map((row: CompanyDataType) => (
 						<TableRow
-							key={row.name}
+							key={row.id}
 							sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
 						>
 							<TableCell component="th" scope="row">
