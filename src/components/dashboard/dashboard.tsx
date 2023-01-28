@@ -36,7 +36,7 @@ function Dashboard() {
 
 	async function readSuggestionApi() {
 		const readSuggestionInputData: ReadSuggestionInputData = {
-			data: {},
+			Data: {},
 			pagination: {},
 			sortBy: {},
 		}
