@@ -1,16 +1,16 @@
 import { Button, Container, TextField, Typography } from "@mui/material"
-import React, { useState } from "react"
+import { useState } from "react"
 import CompanyAPi, {
-	createCompanyType,
+	CreateCompanyInputData,
 } from "../../../composition/company.composition"
 import styles from "./styles.module.css"
-
+import React from "react"
 function Company() {
 	const { createCompany } = CompanyAPi()
-	const [name, setName] = useState<String>("")
-	const [establishedyear, setEstablishedYear] = useState()
-	const [location, setLocation] = useState<String>("")
-	const [country, setCountry] = useState<String>("")
+	const [name, setName] = useState("")
+	const [establishedyear, setEstablishedYear] = useState("")
+	const [location, setLocation] = useState("")
+	const [country, setCountry] = useState("")
 
 	function handleChangeName(event: any) {
 		setName(event.target.value)
@@ -26,11 +26,13 @@ function Company() {
 	}
 
 	async function handleCreateCompany() {
-		const createCompanyInputData: createCompanyType = {
-			country: country,
-			establishedYear: establishedyear || new Date(),
-			location: location,
-			name: name,
+		const createCompanyInputData: CreateCompanyInputData = {
+			data: {
+				pharmaceuticalCompany_country: country,
+				pharmaceuticalCompany_established_year: new Date(establishedyear),
+				pharmaceuticalCompany_locadtion: location,
+				pharmaceuticalCompany_name: name,
+			},
 		}
 		await createCompany(createCompanyInputData)
 	}

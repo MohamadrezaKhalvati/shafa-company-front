@@ -1,16 +1,56 @@
-export type readCompanyType = {}
-export type createCompanyType = {
-	name: String
-	establishedYear: Date
-	location: String
-	country: String
+import axios from "axios"
+import globalData from "./globalData.composition"
+
+export type ReadCompanyInputData = {
+	pagination?: {
+		take?: number
+		skip?: number
+	}
+	sortBy?: {
+		field?: String
+		descending?: Boolean
+	}
+	data?: {
+		id_pharmaceuticalCompany?: number
+		pharmaceuticalCompany_name?: String
+		pharmaceuticalCompany_established_year?: Date
+		pharmaceuticalCompany_locadtion?: String
+		pharmaceuticalCompany_country?: String
+	}
 }
-export default function CompanyAPi() {
-	async function createCompany(input: createCompanyType) {
-		console.log(input)
+export type CreateCompanyInputData = {
+	data: {
+		pharmaceuticalCompany_name: String
+		pharmaceuticalCompany_established_year: Date
+		pharmaceuticalCompany_locadtion: String
+		pharmaceuticalCompany_country: String
+	}
+}
+export default function useCompany() {
+	const { serverAddress } = globalData()
+	async function createCompany(input: CreateCompanyInputData) {
+		try {
+			const { data: createCompanyOutputData } = await axios.post(
+				`${serverAddress}/company/createCompany`,
+				input,
+			)
+			return createCompanyOutputData
+		} catch (err) {
+			console.log(err)
+		}
 	}
 
-	async function readCompany(input: readCompanyType) {}
+	async function readCompany(input: ReadCompanyInputData) {
+		try {
+			const { data: readCompanyOutputData } = await axios.post(
+				`${serverAddress}/company/readCompany`,
+				input,
+			)
+			return readCompanyOutputData
+		} catch (err) {
+			console.log(err)
+		}
+	}
 
 	return {
 		readCompany,

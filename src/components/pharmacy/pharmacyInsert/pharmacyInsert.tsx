@@ -1,26 +1,17 @@
 import { Button, Container, TextField, Typography } from "@mui/material"
-import Paper from "@mui/material/Paper"
-import Table from "@mui/material/Table"
-import TableBody from "@mui/material/TableBody"
-import TableCell from "@mui/material/TableCell"
-import TableContainer from "@mui/material/TableContainer"
-import TableHead from "@mui/material/TableHead"
-import TableRow from "@mui/material/TableRow"
-import React, { useState } from "react"
+import { useState } from "react"
 import pharmacyApi, {
 	CreatePharmacyInputType,
 } from "../../../composition/pharmacy.composition"
 import styles from "./styles.module.css"
-function createData(name: string, calories: number, fat: number) {
-	return { name, calories, fat }
-}
+import React from "react"
 
 function Pharmacy() {
 	const [name, setName] = useState("")
-	const [establishedyear, setEstablishedYear] = useState()
+	const [establishedyear, setEstablishedYear] = useState("")
 	const [address, setAddress] = useState("")
-	const [branch, setBranch] = useState()
-	const [phoneNumber, setPhoneNumber] = useState()
+	const [branch, setBranch] = useState("")
+	const [phoneNumber, setPhoneNumber] = useState("")
 	const { createPharmcy } = pharmacyApi()
 	function handleChangeName(event: any) {
 		setName(event.target.value)
@@ -44,13 +35,14 @@ function Pharmacy() {
 
 	async function handleCreatePharmacy() {
 		const createPharmacyInput: CreatePharmacyInputType = {
-			name: name,
-			address: address,
-			establishedYear: establishedyear || new Date(),
-			branch: branch,
-			phoneNumber: phoneNumber,
+			Data: {
+				pharmacy_address: address,
+				pharmacy_branch: branch,
+				pharmacy_established_year: new Date(establishedyear),
+				pharmacy_name: name,
+				pharmacy_phone_number: phoneNumber,
+			},
 		}
-
 		await createPharmcy(createPharmacyInput)
 	}
 

@@ -5,15 +5,18 @@ import { useState } from "react"
 import styles from "./styles.module.css"
 import React from "react"
 import Typography from "@mui/material/Typography"
+import useMedicine, {
+	CreateMedicineInputType,
+} from "../../../composition/medicine.composition"
 
 function Medicine() {
-	const [name, setName] = useState()
-	const [adminstration, setAdminstration] = useState()
-	const [productionDate, setProductionDate] = useState()
-	const [expiryDate, setExpireDate] = useState()
-	const [ageLimit, setAgeLimit] = useState()
-	const [company, setCompany] = useState()
-
+	const [name, setName] = useState("")
+	const [adminstration, setAdminstration] = useState("")
+	const [productionDate, setProductionDate] = useState("")
+	const [expiryDate, setExpireDate] = useState("")
+	const [ageLimit, setAgeLimit] = useState("")
+	const [company, setCompany] = useState("")
+	const { createMedicine } = useMedicine()
 	function handleChangeName(event: any) {
 		setName(event.target.value)
 	}
@@ -38,7 +41,22 @@ function Medicine() {
 		setCompany(event.target.value)
 	}
 
-	function createMedicine() {}
+	async function handleCreateMedicine() {
+		const creatMedicineInput: CreateMedicineInputType = {
+			Data: {
+				id_company: parseInt(company),
+				medicine_adminstration: adminstration,
+				medicine_age_limit: ageLimit,
+				medicine_content: {
+					value: "content",
+				},
+				medicine_expiry_date: new Date(expiryDate),
+				medicine_name: name,
+				medicine_production_date: new Date(productionDate),
+			},
+		}
+		await createMedicine(creatMedicineInput)
+	}
 
 	return (
 		<Container fixed sx={{ bgcolor: "#FFFFFF", height: "70vh" }}>
@@ -103,7 +121,7 @@ function Medicine() {
 				<div className={styles.buttonDiv}>
 					<Button
 						variant="contained"
-						onClick={createMedicine}
+						onClick={handleCreateMedicine}
 						type="submit"
 						sx={{
 							fontFamily: "Light",

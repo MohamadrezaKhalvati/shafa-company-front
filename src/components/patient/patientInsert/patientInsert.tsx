@@ -1,18 +1,21 @@
 import { Button, Container, TextField, Typography } from "@mui/material"
 import React, { useState } from "react"
+import usePatient, {
+	CreatePatientInputType,
+} from "../../../composition/patient.composition"
 import styles from "./styles.module.css"
 
 function Patient(props: any) {
-	const [name, setName] = useState()
-	const [lastName, setLastName] = useState()
-	const [gender, setGender] = useState()
-	const [age, setAge] = useState()
-	const [birthday, setBirthday] = useState()
-	const [bloodType, setBloodType] = useState()
-	const [diseaseBackground, setDiseaseBackground] = useState()
-	const [identificationId, setIdentificationId] = useState()
-	const [phoneNumber, setPhoneNumber] = useState()
-
+	const [name, setName] = useState("")
+	const [lastName, setLastName] = useState("")
+	const [gender, setGender] = useState("")
+	const [age, setAge] = useState("")
+	const [birthday, setBirthday] = useState("")
+	const [bloodType, setBloodType] = useState("")
+	const [diseaseBackground, setDiseaseBackground] = useState("")
+	const [identificationId, setIdentificationId] = useState("")
+	const [phoneNumber, setPhoneNumber] = useState("")
+	const { createPatient } = usePatient()
 	function handleChangeName(event: any) {
 		setName(event.target.value)
 	}
@@ -49,7 +52,27 @@ function Patient(props: any) {
 		setPhoneNumber(event.target.value)
 	}
 
-	function createPatient() {}
+	async function createPatientApi() {
+		const a = new Date(birthday)
+		console.log(a)
+
+		const createPatientInput: CreatePatientInputType = {
+			Data: {
+				patient_age: parseInt(age) || 0,
+				patient_birthday: new Date(birthday),
+				patient_blood_type: bloodType,
+				patient_gender: gender,
+				patient_identification_id: identificationId,
+				patient_last_name: lastName,
+				patient_name: name,
+				patient_phone_number: phoneNumber,
+			},
+		}
+		console.log(createPatientInput)
+
+		const result = await createPatient(createPatientInput)
+		console.log(result)
+	}
 	return (
 		<Container fixed sx={{ bgcolor: "#FFFFFF", height: "85vh" }}>
 			<Typography sx={{ color: "#363740", pt: "20px", pl: "12px" }}>
@@ -141,7 +164,7 @@ function Patient(props: any) {
 				<div className={styles.buttonDiv}>
 					<Button
 						variant="contained"
-						onClick={createPatient}
+						onClick={createPatientApi}
 						type="submit"
 						sx={{
 							fontFamily: "Light",
