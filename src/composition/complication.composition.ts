@@ -4,7 +4,7 @@ import globalData from "./globalData.composition"
 export type CreateComplicationInputType = {
 	Data: {
 		complications_disese_name: String
-		complications_duration: String
+		complications_duration: Date
 	}
 }
 
@@ -30,7 +30,7 @@ export default function useComplication() {
 	async function createComplication(input: CreateComplicationInputType) {
 		try {
 			const { data: CreateComplicationOutputData } = await axios.post(
-				`${serverAddress}/complications/createComplications`,
+				`${serverAddress}/complications/createcomplications`,
 				input,
 			)
 			return CreateComplicationOutputData

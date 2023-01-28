@@ -130,9 +130,12 @@ function CompanyView() {
 		const data = createData(rawData)
 		setRows(data)
 	}
-	React.useState(() => {
-		async function fetchData() {}
-	})
+	React.useEffect(() => {
+		async function fetchData() {
+			await readCompanyApi()
+		}
+		fetchData()
+	}, [])
 	const emptyRows =
 		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
 
@@ -183,6 +186,7 @@ function CompanyView() {
 							<TableCell component="th" scope="row">
 								{row.name}
 							</TableCell>
+							<TableCell align="left">{row.country}</TableCell>
 							<TableCell align="left">{row.location}</TableCell>
 							<TableCell align="left">
 								{row.establishedYear.toString()}

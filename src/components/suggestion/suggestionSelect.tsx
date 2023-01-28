@@ -30,7 +30,8 @@ interface TablePaginationActionsProps {
 }
 type suggestionDataType = {
 	id: number
-	answer: String
+	topic: String
+	value: String
 }
 function TablePaginationActions(props: TablePaginationActionsProps) {
 	const theme = useTheme()
@@ -100,7 +101,8 @@ function SuggestionView() {
 		rawData.map((element: any) => {
 			const obj: suggestionDataType = {
 				id: element.id_suggestion,
-				answer: element.answer,
+				topic: element.suggestions_topic,
+				value: element.suggestion_value,
 			}
 			data.push(obj)
 		})
@@ -151,7 +153,10 @@ function SuggestionView() {
 					</Typography>
 					<TableRow>
 						<TableCell sx={{ fontWeight: "bold", fontSize: 17 }}>
-							answer
+							topic
+						</TableCell>
+						<TableCell sx={{ fontWeight: "bold", fontSize: 17 }}>
+							value
 						</TableCell>
 					</TableRow>
 				</TableHead>
@@ -165,7 +170,10 @@ function SuggestionView() {
 							sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
 						>
 							<TableCell component="th" scope="row">
-								{row.answer}
+								{row.topic}
+							</TableCell>
+							<TableCell component="th" scope="row">
+								{row.value}
 							</TableCell>
 						</TableRow>
 					))}

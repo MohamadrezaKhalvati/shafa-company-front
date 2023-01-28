@@ -1,3 +1,4 @@
+import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt"
 import BusinessIcon from "@mui/icons-material/Business"
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"
 import ChevronRightIcon from "@mui/icons-material/ChevronRight"
@@ -5,7 +6,6 @@ import DashboardIcon from "@mui/icons-material/Dashboard"
 import GroupAddIcon from "@mui/icons-material/GroupAdd"
 import MedicationIcon from "@mui/icons-material/Medication"
 import MenuIcon from "@mui/icons-material/Menu"
-import PrecisionManufacturingIcon from "@mui/icons-material/PrecisionManufacturing"
 import VaccinesIcon from "@mui/icons-material/Vaccines"
 import { CssBaseline, ListItemIcon } from "@mui/material"
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar"
@@ -23,18 +23,17 @@ import Typography from "@mui/material/Typography"
 import * as React from "react"
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom"
 import Company from "../../components/company/companyInsert/companyInsert"
-import Dashboard from "../../components/dashboard/dashboard"
-import Complication from "../../components/complication/complicationInsert/complicationInsert"
-import Medicine from "../../components/medicine/medicineInsert/medicineInsert"
-import Patient from "../../components/patient/patientInsert/patientInsert"
-import Pharmacy from "../../components/pharmacy/pharmacyInsert/pharmacyInsert"
-import PatientView from "../../components/patient/patientSelect/patientSelect"
 import CompanyView from "../../components/company/companySelect/companySelect"
+import Complication from "../../components/complication/complicationInsert/complicationInsert"
 import ComplicationView from "../../components/complication/complicationSelect/complicationSelect"
-import PharmacyView from "../../components/pharmacy/pharmacySelect/pharmacySelect"
+import Dashboard from "../../components/dashboard/dashboard"
+import Medicine from "../../components/medicine/medicineInsert/medicineInsert"
 import MedicineView from "../../components/medicine/medicineSelect/medicineSelect"
+import Patient from "../../components/patient/patientInsert/patientInsert"
+import PatientView from "../../components/patient/patientSelect/patientSelect"
+import Pharmacy from "../../components/pharmacy/pharmacyInsert/pharmacyInsert"
+import PharmacyView from "../../components/pharmacy/pharmacySelect/pharmacySelect"
 import SuggestionView from "../../components/suggestion/suggestionSelect"
-
 const drawerWidth = 240
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
@@ -109,7 +108,7 @@ export default function PersistentDrawerLeft() {
 		},
 		{
 			title: "complication",
-			icon: <PrecisionManufacturingIcon />,
+			icon: <AddLocationAltIcon />,
 			redirect: "/complication/insert",
 		},
 		{

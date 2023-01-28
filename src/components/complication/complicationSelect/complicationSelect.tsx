@@ -1,22 +1,21 @@
-import React from "react"
+import FirstPageIcon from "@mui/icons-material/FirstPage"
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft"
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight"
+import LastPageIcon from "@mui/icons-material/LastPage"
+import { Typography } from "@mui/material"
+import Box from "@mui/material/Box"
+import IconButton from "@mui/material/IconButton"
 import Paper from "@mui/material/Paper"
 import { useTheme } from "@mui/material/styles"
 import Table from "@mui/material/Table"
 import TableBody from "@mui/material/TableBody"
 import TableCell from "@mui/material/TableCell"
 import TableContainer from "@mui/material/TableContainer"
-import TableHead from "@mui/material/TableHead"
-import { Typography } from "@mui/material"
-import IconButton from "@mui/material/IconButton"
-import FirstPageIcon from "@mui/icons-material/FirstPage"
-import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft"
-import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight"
-import LastPageIcon from "@mui/icons-material/LastPage"
-import Box from "@mui/material/Box"
-import TableRow from "@mui/material/TableRow"
 import TableFooter from "@mui/material/TableFooter"
+import TableHead from "@mui/material/TableHead"
 import TablePagination from "@mui/material/TablePagination"
-import { ReadCompanyInputData } from "../../../composition/company.composition"
+import TableRow from "@mui/material/TableRow"
+import React from "react"
 import useComplication, {
 	ReadComplicationInputType,
 } from "../../../composition/complication.composition"
@@ -125,6 +124,7 @@ function ComplicationView() {
 		}
 
 		const { data: rawData } = await readComplication(readComplicationInputData)
+		rawData
 		const data = createData(rawData)
 		setRows(data)
 	}
@@ -133,7 +133,7 @@ function ComplicationView() {
 		async function fetchData() {
 			await readComplicationApi()
 		}
-		fetchData
+		fetchData()
 	}, [])
 	const emptyRows =
 		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0

@@ -25,7 +25,7 @@ function Complication() {
 		const createComplicationInputData: CreateComplicationInputType = {
 			Data: {
 				complications_disese_name: diseaseName,
-				complications_duration: duration,
+				complications_duration: new Date(duration),
 			},
 		}
 		await createComplication(createComplicationInputData)
