@@ -17,7 +17,7 @@ export type ReadComplicationInputType = {
 		field?: String
 		descending?: Boolean
 	}
-	data?: {
+	Data?: {
 		id_complications?: number
 		id_pharmaceuticalcompany?: number
 		complications_disese_name?: number
@@ -30,7 +30,7 @@ export default function useComplication() {
 	async function createComplication(input: CreateComplicationInputType) {
 		try {
 			const { data: CreateComplicationOutputData } = await axios.post(
-				`${serverAddress}/complications/createcomplications`,
+				`${serverAddress}/complications/createComplications`,
 				input,
 			)
 			return CreateComplicationOutputData
@@ -42,7 +42,7 @@ export default function useComplication() {
 	async function readComplication(input: ReadComplicationInputType) {
 		try {
 			const { data: readComplicationOutputData } = await axios.post(
-				`${serverAddress}/complications/createcomplications`,
+				`${serverAddress}/complications/readcomplications`,
 				input,
 			)
 			return readComplicationOutputData

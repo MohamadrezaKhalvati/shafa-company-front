@@ -53,9 +53,6 @@ function Patient(props: any) {
 	}
 
 	async function createPatientApi() {
-		const a = new Date(birthday)
-		console.log(a)
-
 		const createPatientInput: CreatePatientInputType = {
 			Data: {
 				patient_age: parseInt(age) || 0,
@@ -68,10 +65,8 @@ function Patient(props: any) {
 				patient_phone_number: phoneNumber,
 			},
 		}
-		console.log(createPatientInput)
 
 		const result = await createPatient(createPatientInput)
-		console.log(result)
 	}
 	return (
 		<Container fixed sx={{ bgcolor: "#FFFFFF", height: "85vh" }}>

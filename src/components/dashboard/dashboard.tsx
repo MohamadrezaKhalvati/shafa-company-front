@@ -27,12 +27,12 @@ function Dashboard() {
 	const { readCompany } = useCompany()
 	const { readComplication } = useComplication()
 	const { readSuggestion } = useSuggestion()
-	const [pharmacyCount, setPharmacyCount] = useState()
-	const [medicineCount, setMedicineCount] = useState()
-	const [suggestionCount, setSuggestionCount] = useState()
-	const [companyCount, setCompanyCount] = useState()
-	const [patientCount, setPatientCount] = useState()
-	const [complicationCount, setComplicationCount] = useState()
+	const [pharmacyCount, setPharmacyCount] = useState(0)
+	const [medicineCount, setMedicineCount] = useState(0)
+	const [suggestionCount, setSuggestionCount] = useState(4)
+	const [companyCount, setCompanyCount] = useState(0)
+	const [patientCount, setPatientCount] = useState(0)
+	const [complicationCount, setComplicationCount] = useState(0)
 
 	async function readSuggestionApi() {
 		const readSuggestionInputData: ReadSuggestionInputData = {
@@ -45,7 +45,7 @@ function Dashboard() {
 	}
 	async function readComplicationApi() {
 		const readComplicationInputData: ReadComplicationInputType = {
-			data: {},
+			Data: {},
 			pagination: {},
 			sortBy: {},
 		}
@@ -54,7 +54,7 @@ function Dashboard() {
 	}
 	async function readPharmacyApi() {
 		const readPharmacyInputData: ReadPharmacyInputType = {
-			data: {},
+			Data: {},
 			pagination: {},
 			sortBy: {},
 		}
@@ -84,7 +84,7 @@ function Dashboard() {
 
 	async function readCompanyApi() {
 		const readCompanyInputData: ReadCompanyInputData = {
-			data: {},
+			Data: {},
 			pagination: {},
 			sortBy: {},
 		}
@@ -98,7 +98,7 @@ function Dashboard() {
 			setPharmacyCount(await readPharmacyApi())
 			setCompanyCount(await readCompanyApi())
 			setComplicationCount(await readComplicationApi())
-			setSuggestionCount(await readSuggestion())
+			setSuggestionCount(await readSuggestionApi())
 		}
 		fetchData()
 	}, [])

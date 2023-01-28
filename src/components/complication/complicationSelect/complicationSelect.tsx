@@ -16,6 +16,10 @@ import Box from "@mui/material/Box"
 import TableRow from "@mui/material/TableRow"
 import TableFooter from "@mui/material/TableFooter"
 import TablePagination from "@mui/material/TablePagination"
+import { ReadCompanyInputData } from "../../../composition/company.composition"
+import useComplication, {
+	ReadComplicationInputType,
+} from "../../../composition/complication.composition"
 
 interface TablePaginationActionsProps {
 	count: number
@@ -25,6 +29,12 @@ interface TablePaginationActionsProps {
 		event: React.MouseEvent<HTMLButtonElement>,
 		newPage: number,
 	) => void
+}
+
+type complicationDataType = {
+	id: number
+	duration: Date
+	diseaseName: String
 }
 
 function TablePaginationActions(props: TablePaginationActionsProps) {
@@ -90,23 +100,41 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 }
 
 function ComplicationView() {
-	function createData(name: string, calories: number, fat: number) {
-		return { name, calories, fat }
+	function createData(rawData: any) {
+		const data: any = []
+		rawData.map((element: any) => {
+			const obj: complicationDataType = {
+				id: element.id_complications,
+				diseaseName: element.complications_disease_name,
+				duration: element.complications_duration,
+			}
+			data.push(obj)
+		})
+		return data
 	}
 
 	const [page, setPage] = React.useState(0)
 	const [rowsPerPage, setRowsPerPage] = React.useState(5)
+	const [rows, setRows] = React.useState([])
+	const { readComplication } = useComplication()
+	async function readComplicationApi() {
+		const readComplicationInputData: ReadComplicationInputType = {
+			Data: {},
+			pagination: {},
+			sortBy: {},
+		}
 
-	const rows = [
-		createData("Frozen yoghurt", 159, 6.0),
-		createData("Ice cream sandwich", 237, 9.0),
-		createData("Eclair", 262, 16.0),
-		createData("Cupcake", 305, 3.7),
-		createData("Cupcake", 305, 3.7),
-		createData("Cupcake", 305, 3.7),
-		createData("Gingerbread", 356, 16.0),
-	]
+		const { data: rawData } = await readComplication(readComplicationInputData)
+		const data = createData(rawData)
+		setRows(data)
+	}
 
+	React.useEffect(() => {
+		async function fetchData() {
+			await readComplicationApi()
+		}
+		fetchData
+	}, [])
 	const emptyRows =
 		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
 
@@ -132,13 +160,10 @@ function ComplicationView() {
 					</Typography>
 					<TableRow>
 						<TableCell sx={{ fontWeight: "bold", fontSize: 17 }}>
-							name
+							disease name
 						</TableCell>
 						<TableCell sx={{ fontWeight: "bold", fontSize: 17 }} align="left">
-							country
-						</TableCell>
-						<TableCell sx={{ fontWeight: "bold", fontSize: 17 }} align="left">
-							year
+							duration
 						</TableCell>
 					</TableRow>
 				</TableHead>
@@ -146,16 +171,15 @@ function ComplicationView() {
 					{(rowsPerPage > 0
 						? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 						: rows
-					).map((row) => (
+					).map((row: complicationDataType) => (
 						<TableRow
-							key={row.name}
+							key={row.id}
 							sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
 						>
 							<TableCell component="th" scope="row">
-								{row.name}
+								{row.diseaseName}
 							</TableCell>
-							<TableCell align="left">{row.calories}</TableCell>
-							<TableCell align="left">{row.fat}</TableCell>
+							<TableCell align="left">{row.duration.toString()}</TableCell>
 						</TableRow>
 					))}
 					{emptyRows > 0 && (

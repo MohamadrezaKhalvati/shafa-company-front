@@ -1,21 +1,24 @@
-import React from "react"
+import FirstPageIcon from "@mui/icons-material/FirstPage"
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft"
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight"
+import LastPageIcon from "@mui/icons-material/LastPage"
+import { Typography } from "@mui/material"
+import Box from "@mui/material/Box"
+import IconButton from "@mui/material/IconButton"
 import Paper from "@mui/material/Paper"
 import { useTheme } from "@mui/material/styles"
 import Table from "@mui/material/Table"
 import TableBody from "@mui/material/TableBody"
 import TableCell from "@mui/material/TableCell"
 import TableContainer from "@mui/material/TableContainer"
-import TableHead from "@mui/material/TableHead"
-import { Typography } from "@mui/material"
-import IconButton from "@mui/material/IconButton"
-import FirstPageIcon from "@mui/icons-material/FirstPage"
-import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft"
-import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight"
-import LastPageIcon from "@mui/icons-material/LastPage"
-import Box from "@mui/material/Box"
-import TableRow from "@mui/material/TableRow"
 import TableFooter from "@mui/material/TableFooter"
+import TableHead from "@mui/material/TableHead"
 import TablePagination from "@mui/material/TablePagination"
+import TableRow from "@mui/material/TableRow"
+import React from "react"
+import usePharmacy, {
+	ReadPharmacyInputType,
+} from "../../../composition/pharmacy.composition"
 
 interface TablePaginationActionsProps {
 	count: number
@@ -25,6 +28,13 @@ interface TablePaginationActionsProps {
 		event: React.MouseEvent<HTMLButtonElement>,
 		newPage: number,
 	) => void
+}
+type pharmacyDataType = {
+	name: String
+	address: String
+	phoneNumber?: String
+	id: number
+	branch?: String
 }
 
 function TablePaginationActions(props: TablePaginationActionsProps) {
@@ -90,21 +100,42 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 }
 
 function PharmacyView() {
-	function createData(name: string, calories: number, fat: number) {
-		return { name, calories, fat }
+	function createData(rawData: any) {
+		const data: any = []
+		rawData.map((element: any) => {
+			const obj: pharmacyDataType = {
+				id: element.id_pharmacy,
+				address: element.pharmacy_address,
+				branch: element.pharmacy_branch,
+				phoneNumber: element.pharmacy_phone_number,
+				name: element.pharmacy_name,
+			}
+			data.push(obj)
+		})
+		return data
 	}
+	const { readPharmacy } = usePharmacy()
 	const [page, setPage] = React.useState(0)
 	const [rowsPerPage, setRowsPerPage] = React.useState(5)
-	const rows = [
-		createData("Frozen yoghurt", 159, 6.0),
-		createData("Ice cream sandwich", 237, 9.0),
-		createData("Eclair", 262, 16.0),
-		createData("Cupcake", 305, 3.7),
-		createData("Gingerbread", 356, 16.0),
-		createData("Gingerbread", 356, 16.0),
-		createData("Gingerbread", 356, 16.0),
-	]
+	const [rows, setRows] = React.useState([])
 
+	async function readPharmacyApi() {
+		const readPharmacyInputData: ReadPharmacyInputType = {
+			Data: {},
+			pagination: {},
+			sortBy: {},
+		}
+		const { data: rawData } = await readPharmacy(readPharmacyInputData)
+		const data = createData(rawData)
+		setRows(data)
+	}
+
+	React.useEffect(() => {
+		async function fetchData() {
+			await readPharmacyApi()
+		}
+		fetchData()
+	}, [])
 	const emptyRows =
 		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
 
@@ -133,10 +164,13 @@ function PharmacyView() {
 							name
 						</TableCell>
 						<TableCell sx={{ fontWeight: "bold", fontSize: 17 }} align="left">
-							country
+							address
 						</TableCell>
 						<TableCell sx={{ fontWeight: "bold", fontSize: 17 }} align="left">
-							year
+							branch
+						</TableCell>
+						<TableCell sx={{ fontWeight: "bold", fontSize: 17 }} align="left">
+							phone number
 						</TableCell>
 					</TableRow>
 				</TableHead>
@@ -144,16 +178,17 @@ function PharmacyView() {
 					{(rowsPerPage > 0
 						? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 						: rows
-					).map((row) => (
+					).map((row: pharmacyDataType) => (
 						<TableRow
-							key={row.name}
+							key={row.id}
 							sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
 						>
 							<TableCell component="th" scope="row">
 								{row.name}
 							</TableCell>
-							<TableCell align="left">{row.calories}</TableCell>
-							<TableCell align="left">{row.fat}</TableCell>
+							<TableCell align="left">{row.address}</TableCell>
+							<TableCell align="left">{row.branch}</TableCell>
+							<TableCell align="left">{row.phoneNumber}</TableCell>
 						</TableRow>
 					))}
 					{emptyRows > 0 && (

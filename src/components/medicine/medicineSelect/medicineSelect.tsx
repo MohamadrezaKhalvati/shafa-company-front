@@ -1,21 +1,24 @@
-import React from "react"
+import FirstPageIcon from "@mui/icons-material/FirstPage"
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft"
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight"
+import LastPageIcon from "@mui/icons-material/LastPage"
+import { Typography } from "@mui/material"
+import Box from "@mui/material/Box"
+import IconButton from "@mui/material/IconButton"
 import Paper from "@mui/material/Paper"
 import { useTheme } from "@mui/material/styles"
 import Table from "@mui/material/Table"
 import TableBody from "@mui/material/TableBody"
 import TableCell from "@mui/material/TableCell"
 import TableContainer from "@mui/material/TableContainer"
-import TableHead from "@mui/material/TableHead"
-import { Typography } from "@mui/material"
-import IconButton from "@mui/material/IconButton"
-import FirstPageIcon from "@mui/icons-material/FirstPage"
-import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft"
-import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight"
-import LastPageIcon from "@mui/icons-material/LastPage"
-import Box from "@mui/material/Box"
-import TableRow from "@mui/material/TableRow"
 import TableFooter from "@mui/material/TableFooter"
+import TableHead from "@mui/material/TableHead"
 import TablePagination from "@mui/material/TablePagination"
+import TableRow from "@mui/material/TableRow"
+import React from "react"
+import useMedicine, {
+	ReadMedicineInputType,
+} from "../../../composition/medicine.composition"
 
 interface TablePaginationActionsProps {
 	count: number
@@ -27,9 +30,17 @@ interface TablePaginationActionsProps {
 	) => void
 }
 
+type medicineDataType = {
+	id: number
+	name: String
+	adminstration: String
+	ageLimit: String
+}
+
 function TablePaginationActions(props: TablePaginationActionsProps) {
 	const theme = useTheme()
 	const { count, page, rowsPerPage, onPageChange } = props
+	const [rows, setRows] = React.useState([])
 
 	function handleFirstPageButtonClick(event: any) {
 		onPageChange(event, 0)
@@ -90,23 +101,24 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 }
 
 function MedicineView() {
-	function createData(name: string, calories: number, fat: number) {
-		return { name, calories, fat }
+	function createData(rawData: any) {
+		const data: any = []
+		rawData.map((element: any) => {
+			const obj: medicineDataType = {
+				adminstration: element.medicine_adminstration,
+				ageLimit: element.medicine_age_limit,
+				name: element.medicine_name,
+				id: element.id_medicine,
+			}
+			data.push(obj)
+		})
+		return data
 	}
 
 	const [page, setPage] = React.useState(0)
 	const [rowsPerPage, setRowsPerPage] = React.useState(5)
-
-	const rows = [
-		createData("Frozen yoghurt", 159, 6.0),
-		createData("Ice cream sandwich", 237, 9.0),
-		createData("Eclair", 262, 16.0),
-		createData("Cupcake", 305, 3.7),
-		createData("Gingerbread", 356, 16.0),
-		createData("Gingerbread", 356, 16.0),
-		createData("Gingerbread", 356, 16.0),
-	]
-
+	const [rows, setRows] = React.useState([])
+	const { readMedicine } = useMedicine()
 	const emptyRows =
 		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
 
@@ -118,6 +130,26 @@ function MedicineView() {
 		setRowsPerPage(parseInt(event.target.value, 10))
 		setPage(0)
 	}
+
+	async function readMedicineApi() {
+		const readMedicineInputData: ReadMedicineInputType = {
+			Data: {},
+			pagination: {},
+			sortBy: {},
+		}
+		const { data: rawData } = await readMedicine(readMedicineInputData)
+		const data = createData(rawData)
+
+		setRows(data)
+	}
+
+	React.useEffect(() => {
+		async function fetchData() {
+			await readMedicineApi()
+		}
+		fetchData()
+	}, [])
+
 	return (
 		<TableContainer component={Paper}>
 			<Table sx={{ minWidth: 650, mt: "20px" }} aria-label="simple table">
@@ -135,10 +167,10 @@ function MedicineView() {
 							name
 						</TableCell>
 						<TableCell sx={{ fontWeight: "bold", fontSize: 17 }} align="left">
-							country
+							adminstration
 						</TableCell>
 						<TableCell sx={{ fontWeight: "bold", fontSize: 17 }} align="left">
-							year
+							age limit
 						</TableCell>
 					</TableRow>
 				</TableHead>
@@ -146,16 +178,16 @@ function MedicineView() {
 					{(rowsPerPage > 0
 						? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 						: rows
-					).map((row) => (
+					).map((row: medicineDataType) => (
 						<TableRow
-							key={row.name}
+							key={row.id}
 							sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
 						>
 							<TableCell component="th" scope="row">
 								{row.name}
 							</TableCell>
-							<TableCell align="left">{row.calories}</TableCell>
-							<TableCell align="left">{row.fat}</TableCell>
+							<TableCell align="left">{row.adminstration}</TableCell>
+							<TableCell align="left">{row.ageLimit}</TableCell>
 						</TableRow>
 					))}
 					{emptyRows > 0 && (

@@ -16,6 +16,9 @@ import Box from "@mui/material/Box"
 import TableRow from "@mui/material/TableRow"
 import TableFooter from "@mui/material/TableFooter"
 import TablePagination from "@mui/material/TablePagination"
+import useSuggestion, {
+	ReadSuggestionInputData,
+} from "../../composition/suggestion.composition"
 interface TablePaginationActionsProps {
 	count: number
 	page: number
@@ -25,7 +28,10 @@ interface TablePaginationActionsProps {
 		newPage: number,
 	) => void
 }
-
+type suggestionDataType = {
+	id: number
+	answer: String
+}
 function TablePaginationActions(props: TablePaginationActionsProps) {
 	const theme = useTheme()
 	const { count, page, rowsPerPage, onPageChange } = props
@@ -89,21 +95,21 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 }
 
 function SuggestionView() {
-	function createData(name: string, calories: number, fat: number) {
-		return { name, calories, fat }
+	function createData(rawData: any) {
+		const data: any = []
+		rawData.map((element: any) => {
+			const obj: suggestionDataType = {
+				id: element.id_suggestion,
+				answer: element.answer,
+			}
+			data.push(obj)
+		})
+		return data
 	}
 	const [page, setPage] = React.useState(0)
 	const [rowsPerPage, setRowsPerPage] = React.useState(5)
-
-	const rows = [
-		createData("Frozen yoghurt", 159, 6.0),
-		createData("Ice cream sandwich", 237, 9.0),
-		createData("Eclair", 262, 16.0),
-		createData("Cupcake", 305, 3.7),
-		createData("Gingerbread", 356, 16.0),
-		createData("Gingerbread", 356, 16.0),
-		createData("Gingerbread", 356, 16.0),
-	]
+	const [rows, setRows] = React.useState([])
+	const { readSuggestion } = useSuggestion()
 	const emptyRows =
 		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
 
@@ -111,6 +117,22 @@ function SuggestionView() {
 		setPage(newPage)
 	}
 
+	async function readSuggestionApi() {
+		const readSuggestionInputData: ReadSuggestionInputData = {
+			Data: {},
+			pagination: {},
+			sortBy: {},
+		}
+		const { data: rawData } = await readSuggestion(readSuggestionInputData)
+		const data = createData(rawData)
+		setRows(data)
+	}
+	React.useEffect(() => {
+		async function fetchData() {
+			await readSuggestionApi()
+		}
+		fetchData()
+	}, [])
 	function handleChangeRowsPerPage(event: any) {
 		setRowsPerPage(parseInt(event.target.value, 10))
 		setPage(0)
@@ -129,13 +151,7 @@ function SuggestionView() {
 					</Typography>
 					<TableRow>
 						<TableCell sx={{ fontWeight: "bold", fontSize: 17 }}>
-							name
-						</TableCell>
-						<TableCell sx={{ fontWeight: "bold", fontSize: 17 }} align="left">
-							country
-						</TableCell>
-						<TableCell sx={{ fontWeight: "bold", fontSize: 17 }} align="left">
-							year
+							answer
 						</TableCell>
 					</TableRow>
 				</TableHead>
@@ -143,16 +159,14 @@ function SuggestionView() {
 					{(rowsPerPage > 0
 						? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 						: rows
-					).map((row) => (
+					).map((row: suggestionDataType) => (
 						<TableRow
-							key={row.name}
+							key={row.id}
 							sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
 						>
 							<TableCell component="th" scope="row">
-								{row.name}
+								{row.answer}
 							</TableCell>
-							<TableCell align="left">{row.calories}</TableCell>
-							<TableCell align="left">{row.fat}</TableCell>
 						</TableRow>
 					))}
 					{emptyRows > 0 && (

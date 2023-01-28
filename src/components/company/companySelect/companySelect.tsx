@@ -16,6 +16,9 @@ import FirstPageIcon from "@mui/icons-material/FirstPage"
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft"
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight"
 import LastPageIcon from "@mui/icons-material/LastPage"
+import useCompany, {
+	ReadCompanyInputData,
+} from "../../../composition/company.composition"
 interface TablePaginationActionsProps {
 	count: number
 	page: number
@@ -26,6 +29,12 @@ interface TablePaginationActionsProps {
 	) => void
 }
 
+type CompanyDataType = {
+	name: String
+	location: String
+	establishedYear: Date
+	country: String
+}
 function TablePaginationActions(props: TablePaginationActionsProps) {
 	const theme = useTheme()
 	const { count, page, rowsPerPage, onPageChange } = props
@@ -89,23 +98,39 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 }
 
 function CompanyView() {
-	function createData(name: string, calories: number, fat: number) {
-		return { name, calories, fat }
+	function createData(rawData: any) {
+		const data: any = []
+		rawData.map((element: any) => {
+			const obj: CompanyDataType = {
+				country: element.PharmaceuticalCompany_country,
+				establishedYear: element.PharmaceuticalCompany_established_year,
+				location: element.PharmaceuticalCompany_location,
+				name: element.PharmaceuticalCompany_name,
+			}
+			data.push(obj)
+		})
+		return data
 	}
 
+	const { readCompany } = useCompany()
 	const [page, setPage] = React.useState(0)
 	const [rowsPerPage, setRowsPerPage] = React.useState(5)
+	const [rows, setRows] = React.useState([])
 
-	const rows = [
-		createData("Frozen yoghurt", 159, 6.0),
-		createData("Ice cream sandwich", 237, 9.0),
-		createData("Eclair", 262, 16.0),
-		createData("Cupcake", 305, 3.7),
-		createData("Gingerbread", 356, 16.0),
-		createData("asda", 3123, 1123),
-		createData("asda2", 31223, 11123),
-	]
+	async function readCompanyApi() {
+		const readCompanyInputData: ReadCompanyInputData = {
+			Data: {},
+			pagination: {},
+			sortBy: {},
+		}
 
+		const { data: rawData } = await readCompany(readCompanyInputData)
+		const data = createData(rawData)
+		setRows(data)
+	}
+	React.useState(() => {
+		async function fetchData() {}
+	})
 	const emptyRows =
 		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
 
@@ -137,7 +162,10 @@ function CompanyView() {
 							country
 						</TableCell>
 						<TableCell sx={{ fontWeight: "bold", fontSize: 17 }} align="left">
-							year
+							location
+						</TableCell>
+						<TableCell sx={{ fontWeight: "bold", fontSize: 17 }} align="left">
+							established year
 						</TableCell>
 					</TableRow>
 				</TableHead>
@@ -145,7 +173,7 @@ function CompanyView() {
 					{(rowsPerPage > 0
 						? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 						: rows
-					).map((row) => (
+					).map((row: CompanyDataType) => (
 						<TableRow
 							key={row.name}
 							sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -153,8 +181,10 @@ function CompanyView() {
 							<TableCell component="th" scope="row">
 								{row.name}
 							</TableCell>
-							<TableCell align="left">{row.calories}</TableCell>
-							<TableCell align="left">{row.fat}</TableCell>
+							<TableCell align="left">{row.location}</TableCell>
+							<TableCell align="left">
+								{row.establishedYear.toString()}
+							</TableCell>
 						</TableRow>
 					))}
 					{emptyRows > 0 && (

@@ -8,7 +8,7 @@ import React from "react"
 
 function Complication() {
 	const [diseaseName, setDiseaseName] = useState("")
-	const [duration, setDuration] = useState()
+	const [duration, setDuration] = useState("")
 	const [pharmaceuticalCompanyName, setPharmaceuticalCompanyName] = useState()
 	const { createComplication } = complicationApi()
 	function handleChangeDiseaseName(event: any) {
@@ -23,9 +23,10 @@ function Complication() {
 
 	async function handleCreateComplication() {
 		const createComplicationInputData: CreateComplicationInputType = {
-			diseaseName: diseaseName,
-			duration: duration || new Date(),
-			pharmaceuticalCompanyId: pharmaceuticalCompanyName || 0,
+			Data: {
+				complications_disese_name: diseaseName,
+				complications_duration: duration,
+			},
 		}
 		await createComplication(createComplicationInputData)
 	}
@@ -46,8 +47,8 @@ function Complication() {
 					/>
 					<TextField
 						required
-						onChange={duration}
-						value={handleChangeDuration}
+						onChange={handleChangeDuration}
+						value={duration}
 						id="outlined-basic"
 						label="duration"
 						variant="outlined"

@@ -10,7 +10,7 @@ export type ReadSuggestionInputData = {
 		field?: String
 		descending?: Boolean
 	}
-	data?: {
+	Data?: {
 		suggestion_topic?: String
 		suggestion_date?: String
 		suggestion_value?: String
@@ -21,7 +21,7 @@ export default function useSuggestion() {
 	async function readSuggestion(input: ReadSuggestionInputData) {
 		try {
 			const { data: readSuggestionOutputData } = await axios.post(
-				`${serverAddress}/medicine/readMedicine`,
+				`${serverAddress}/suggestion/readSuggestion`,
 				input,
 			)
 			return readSuggestionOutputData

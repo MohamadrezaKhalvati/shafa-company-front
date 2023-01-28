@@ -10,7 +10,7 @@ export type ReadCompanyInputData = {
 		field?: String
 		descending?: Boolean
 	}
-	data?: {
+	Data?: {
 		id_pharmaceuticalCompany?: number
 		pharmaceuticalCompany_name?: String
 		pharmaceuticalCompany_established_year?: Date

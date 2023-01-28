@@ -55,8 +55,6 @@ export default function useMedicine() {
 				`${serverAddress}/medicine/readMedicine`,
 				input,
 			)
-			console.log(readMedicineOutput)
-
 			return readMedicineOutput
 		} catch (err) {
 			console.log(err)

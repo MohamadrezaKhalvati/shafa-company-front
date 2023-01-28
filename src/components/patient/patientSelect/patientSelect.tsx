@@ -16,6 +16,9 @@ import Box from "@mui/material/Box"
 import TableRow from "@mui/material/TableRow"
 import TableFooter from "@mui/material/TableFooter"
 import TablePagination from "@mui/material/TablePagination"
+import usePatient, {
+	ReadPatientInputType,
+} from "../../../composition/patient.composition"
 
 interface TablePaginationActionsProps {
 	count: number
@@ -27,6 +30,14 @@ interface TablePaginationActionsProps {
 	) => void
 }
 
+type patientData = {
+	id: number
+	name: String
+	lastName: String
+	gender: String
+	bloodType: String
+	age: number
+}
 function TablePaginationActions(props: TablePaginationActionsProps) {
 	const theme = useTheme()
 	const { count, page, rowsPerPage, onPageChange } = props
@@ -90,21 +101,46 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 }
 
 function PatientView() {
-	function createData(name: string, calories: number, fat: number) {
-		return { name, calories, fat }
+	function createData(rawData: any) {
+		const data: any = []
+		rawData.map((element: any) => {
+			const obj: patientData = {
+				id: element.id_patient,
+				age: element.patient_age,
+				bloodType: element.patient_blood_type,
+				gender: element.patient_gender === "M" ? "Male" : "Female",
+				lastName: element.patient_last_name,
+				name: element.patient_name,
+			}
+			data.push(obj)
+		})
+		return data
 	}
 	const [page, setPage] = React.useState(0)
 	const [rowsPerPage, setRowsPerPage] = React.useState(5)
+	const [rows, setRows] = React.useState([])
+	const { readPatient } = usePatient()
 
-	const rows = [
-		createData("Frozen yoghurt", 159, 6.0),
-		createData("Ice cream sandwich", 237, 9.0),
-		createData("Eclair", 262, 16.0),
-		createData("Cupcake", 305, 3.7),
-		createData("Gingerbread", 356, 16.0),
-		createData("Gingerbradwqedqead", 356, 16.0),
-		createData("qweqwe", 356, 16.0),
-	]
+	async function readPatientApi() {
+		const readPatientinputData: ReadPatientInputType = {
+			Data: {},
+			pagination: {},
+			sortBy: {},
+		}
+		const { data: rawdata } = await readPatient(readPatientinputData)
+
+		const data = createData(rawdata)
+
+		setRows(data)
+	}
+
+	React.useEffect(() => {
+		async function fetchData() {
+			await readPatientApi()
+		}
+		fetchData()
+	}, [])
+
 	const emptyRows =
 		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
 
@@ -133,10 +169,16 @@ function PatientView() {
 							name
 						</TableCell>
 						<TableCell sx={{ fontWeight: "bold", fontSize: 17 }} align="left">
-							country
+							last name
 						</TableCell>
 						<TableCell sx={{ fontWeight: "bold", fontSize: 17 }} align="left">
-							year
+							gender
+						</TableCell>
+						<TableCell sx={{ fontWeight: "bold", fontSize: 17 }} align="left">
+							bloodType
+						</TableCell>
+						<TableCell sx={{ fontWeight: "bold", fontSize: 17 }} align="left">
+							age
 						</TableCell>
 					</TableRow>
 				</TableHead>
@@ -144,16 +186,18 @@ function PatientView() {
 					{(rowsPerPage > 0
 						? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 						: rows
-					).map((row) => (
+					).map((row: patientData) => (
 						<TableRow
-							key={row.name}
+							key={row.id}
 							sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
 						>
 							<TableCell component="th" scope="row">
 								{row.name}
 							</TableCell>
-							<TableCell align="left">{row.calories}</TableCell>
-							<TableCell align="left">{row.fat}</TableCell>
+							<TableCell align="left">{row.lastName}</TableCell>
+							<TableCell align="left">{row.gender}</TableCell>
+							<TableCell align="left">{row.bloodType}</TableCell>
+							<TableCell align="left">{row.age}</TableCell>
 						</TableRow>
 					))}
 					{emptyRows > 0 && (
